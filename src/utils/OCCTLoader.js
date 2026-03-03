@@ -157,6 +157,7 @@ export class OCCTLoader {
         await this.ensureThreeLoaded();
 
         if (!this.occt) {
+            loadModule("occt-import-js");
             const OCCT = (await import("occt-import-js")).default;
             this.occt = await OCCT({
                 locateFile: (file) => {
@@ -186,4 +187,13 @@ export class OCCTLoader {
             console.error("Error loading STEP file:", error);
         }
     }
+}
+
+const loadModule = async (modulePath) => {
+  try {
+    return await import(modulePath)
+  } catch (e) {
+    console.warn("No occt-import-js found. STEP files will not be supported");
+    throw e;
+  }
 }
