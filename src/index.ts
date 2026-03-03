@@ -18,7 +18,7 @@ const server = serve({
       },
     },
 
-    "/occt-import": {
+    /* "/occt-import-js.wasm": {
       async GET(req) {
         console.log("[Server] Request for /occt-import-js.wasm");
         try {
@@ -46,7 +46,7 @@ const server = serve({
           return new Response(String(error), { status: 500 });
         }
       },
-    },
+    }, */
 
     "/api/analyze": {
       async POST(req) {
