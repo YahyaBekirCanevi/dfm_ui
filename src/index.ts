@@ -18,7 +18,7 @@ const server = serve({
       },
     },
 
-    "/occt-import-js.wasm": {
+    "/occt-import": {
       async GET(req) {
         console.log("[Server] Request for /occt-import-js.wasm");
         try {

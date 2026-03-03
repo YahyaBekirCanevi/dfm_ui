@@ -161,7 +161,7 @@ export class OCCTLoader {
             this.occt = await OCCT({
                 locateFile: (file) => {
                     if (file.endsWith(".wasm")) {
-                        return "/occt-import-js.wasm";
+                        return "/occt-import";
                     }
                     return file;
                 }
