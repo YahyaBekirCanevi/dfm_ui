@@ -19,12 +19,9 @@ const server = serve({
     },
 
     "/occt-import-js.wasm": async () => {
-      const path = require("path");
-      const wasmPath = path.join(
+      const wasmPath = Bun.resolveSync(
+        "occt-import-js/dist/occt-import-js.wasm",
         import.meta.dir,
-        "..",
-        "public",
-        "occt-import-js.wasm",
       );
       return new Response(Bun.file(wasmPath));
     },
