@@ -21,7 +21,7 @@ export function ViewerPage() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("/api/analyze", {
+      const res = await fetch("https://dfm-service-4xf0.onrender.com/analyze", {
         method: "POST",
         body: formData,
       });
