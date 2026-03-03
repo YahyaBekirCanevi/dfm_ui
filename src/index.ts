@@ -18,12 +18,15 @@ const server = serve({
       },
     },
 
-    "/occt-import-js.wasm": async () => {
-      const wasmPath = Bun.resolveSync(
-        "occt-import-js/dist/occt-import-js.wasm",
-        import.meta.dir,
-      );
-      return new Response(Bun.file(wasmPath));
+    "/occt-import-js.wasm": {
+      async GET(req) {
+        console.log("GET /occt-import-js.wasm");
+        const wasmPath = Bun.resolveSync(
+          "occt-import-js/dist/occt-import-js.wasm",
+          import.meta.dir,
+        );
+        return new Response(Bun.file(wasmPath));
+      },
     },
 
     "/api/analyze": {
