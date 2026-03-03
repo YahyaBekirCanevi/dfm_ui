@@ -20,12 +20,31 @@ const server = serve({
 
     "/occt-import-js.wasm": {
       async GET(req) {
-        console.log("GET /occt-import-js.wasm");
-        const wasmPath = Bun.resolveSync(
-          "occt-import-js/dist/occt-import-js.wasm",
-          import.meta.dir,
-        );
-        return new Response(Bun.file(wasmPath));
+        console.log("[Server] Request for /occt-import-js.wasm");
+        try {
+          const wasmPath = Bun.resolveSync(
+            "occt-import-js/dist/occt-import-js.wasm",
+            import.meta.dir,
+          );
+          console.log("[Server] Resolved WASM path:", wasmPath);
+          const file = Bun.file(wasmPath);
+          if (!(await file.exists())) {
+            console.error("[Server] WASM file not found on disk:", wasmPath);
+            return new Response("WASM file not found", { status: 404 });
+          }
+          return new Response(file);
+        } catch (error) {
+          console.error("[Server] Error resolving WASM:", error);
+          // Fallback to absolute path if resolveSync fails
+          const fallbackPath =
+            "node_modules/occt-import-js/dist/occt-import-js.wasm";
+          console.log("[Server] Trying fallback path:", fallbackPath);
+          const fallbackFile = Bun.file(fallbackPath);
+          if (await fallbackFile.exists()) {
+            return new Response(fallbackFile);
+          }
+          return new Response(String(error), { status: 500 });
+        }
       },
     },
 
