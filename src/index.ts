@@ -3,9 +3,6 @@ import index from "./index.html";
 
 const server = serve({
   routes: {
-    // Serve index.html for all unmatched routes.
-    "/*": index,
-
     "/api/hello": {
       async GET(req) {
         return Response.json({
@@ -22,10 +19,11 @@ const server = serve({
     },
 
     "/occt-import-js.wasm": async () => {
-      const wasmFile = Bun.file(
-        "node_modules/occt-import-js/dist/occt-import-js.wasm",
+      const wasmPath = Bun.resolveSync(
+        "occt-import-js/dist/occt-import-js.wasm",
+        import.meta.dir,
       );
-      return new Response(wasmFile);
+      return new Response(Bun.file(wasmPath));
     },
 
     "/api/analyze": {
@@ -58,6 +56,8 @@ const server = serve({
         message: `Hello, ${name}!`,
       });
     },
+    // Serve index.html for all unmatched routes.
+    "/*": index,
   },
 
   development: process.env.NODE_ENV !== "production" && {
